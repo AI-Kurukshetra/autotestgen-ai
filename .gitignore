@@ -1,0 +1,15 @@
+.next
+node_modules
+.env
+.env.local
+.env.production
+dist
+supabase/.temp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.local
+.env.*.local
+README.md
