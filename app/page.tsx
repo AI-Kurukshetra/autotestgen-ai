@@ -189,7 +189,7 @@ export default async function HomePage() {
               AutoTestGen AI
             </h1>
             <p className="max-w-2xl text-base leading-7 text-stone-700 sm:text-lg sm:leading-8">
-             test vercel auto deployment Generate production-ready automation suites from any webpage in minutes,
+              Generate production-ready automation suites from any webpage in minutes,
               not days.
             </p>
             <p className="max-w-2xl text-sm leading-7 text-stone-600">
