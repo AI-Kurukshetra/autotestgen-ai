@@ -23,6 +23,38 @@ export function createAdminClient() {
   });
 }
 
+export async function findUserByEmail(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return null;
+  }
+
+  const supabase = createAdminClient();
+  let page = 1;
+
+  while (true) {
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page,
+      perPage: 1000
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    const users = data.users || [];
+    const matchedUser =
+      users.find((candidate) => candidate.email?.toLowerCase() === normalizedEmail) || null;
+
+    if (matchedUser || users.length < 1000) {
+      return matchedUser;
+    }
+
+    page += 1;
+  }
+}
+
 export async function getCurrentUserRole() {
   const supabase = createServerClient();
   const {

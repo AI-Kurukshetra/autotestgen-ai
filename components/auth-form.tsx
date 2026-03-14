@@ -54,6 +54,29 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
+      const existingEmailResponse = await fetch("/api/auth/check-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const existingEmailPayload = (await existingEmailResponse.json()) as {
+        exists?: boolean;
+        error?: string;
+      };
+
+      if (!existingEmailResponse.ok) {
+        setError(existingEmailPayload.error || "Unable to verify this email right now.");
+        return;
+      }
+
+      if (existingEmailPayload.exists) {
+        setError("An account with this email already exists. Please log in instead.");
+        return;
+      }
+
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password
