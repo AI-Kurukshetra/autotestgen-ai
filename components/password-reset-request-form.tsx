@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAuthErrorMessage } from "@/lib/auth-error-message";
+import { getPasswordUpdateUrl } from "@/lib/site-url";
 import { createClient } from "@/lib/supabaseClient";
 
 export function PasswordResetRequestForm() {
@@ -24,10 +25,12 @@ export function PasswordResetRequestForm() {
     setIsSubmitting(true);
 
     try {
-      const redirectTo = `${window.location.origin}/auth/update-password`;
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo
-      });
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: getPasswordUpdateUrl()
+        }
+      );
 
       if (resetError) {
         setError(getAuthErrorMessage(resetError.message));

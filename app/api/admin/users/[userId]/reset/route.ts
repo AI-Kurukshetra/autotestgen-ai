@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 
+import { getPasswordUpdateUrl } from "@/lib/site-url";
 import { createAdminClient, getCurrentUserRole } from "@/lib/supabase/admin";
 
 export async function POST(
-  request: Request,
+  _request: Request,
   { params }: { params: { userId: string } }
 ) {
   try {
@@ -21,13 +22,9 @@ export async function POST(
       return NextResponse.json({ error: "User email not found." }, { status: 404 });
     }
 
-    const origin = new URL(request.url).origin;
-    const { error } = await supabase.auth.resetPasswordForEmail(
-      targetUserData.user.email,
-      {
-        redirectTo: `${origin}/auth/update-password`
-      }
-    );
+    const { error } = await supabase.auth.resetPasswordForEmail(targetUserData.user.email, {
+      redirectTo: getPasswordUpdateUrl()
+    });
 
     if (error) {
       throw error;

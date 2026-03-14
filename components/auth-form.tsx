@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getAuthErrorMessage } from "@/lib/auth-error-message";
+import { getDashboardUrl } from "@/lib/site-url";
 import { createClient } from "@/lib/supabaseClient";
 
 type AuthFormProps = {
@@ -80,7 +81,10 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
-        password
+        password,
+        options: {
+          emailRedirectTo: getDashboardUrl()
+        }
       });
 
       if (signUpError) {
