@@ -23,50 +23,59 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const isLoading = isSubmitting || isPending;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isLoading) return;
+
+    setIsSubmitting(true);
     setError("");
     setMessage("");
 
-    if (mode === "login") {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+    try {
+      if (mode === "login") {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (signInError) {
+          setError(signInError.message);
+          return;
+        }
+
+        startTransition(() => {
+          router.push(next);
+          router.refresh();
+        });
+        return;
+      }
+
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password
       });
 
-      if (signInError) {
-        setError(signInError.message);
+      if (signUpError) {
+        setError(signUpError.message);
         return;
       }
 
-      startTransition(() => {
-        router.push(next);
-        router.refresh();
-      });
-      return;
+      if (data.session) {
+        startTransition(() => {
+          router.push(next);
+          router.refresh();
+        });
+        return;
+      }
+
+      setMessage("Account created. Check your email to confirm your sign-up.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password
-    });
-
-    if (signUpError) {
-      setError(signUpError.message);
-      return;
-    }
-
-    if (data.session) {
-      startTransition(() => {
-        router.push(next);
-        router.refresh();
-      });
-      return;
-    }
-
-    setMessage("Account created. Check your email to confirm your sign-up.");
   }
 
   const heading = mode === "login" ? "Return to the lab" : "Create your workspace";
@@ -111,8 +120,18 @@ export function AuthForm({ mode }: AuthFormProps) {
             </Link>
           </div>
         ) : null}
-        <Button className="w-full" variant="accent" size="lg" disabled={isPending}>
-          {isPending ? "Processing..." : cta}
+        <Button className="w-full" variant="accent" size="lg" disabled={isLoading} aria-busy={isLoading}>
+          {isLoading ? (
+            <>
+              <span
+                aria-hidden="true"
+                className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground/35 border-t-primary-foreground"
+              />
+              <span className="sr-only">{mode === "login" ? "Logging in" : "Signing up"}</span>
+            </>
+          ) : (
+            cta
+          )}
         </Button>
       </form>
 
