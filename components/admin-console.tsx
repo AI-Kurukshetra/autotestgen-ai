@@ -1,12 +1,14 @@
 "use client";
 
 import {
+  AlertOctagon,
   Ban,
   ChevronDown,
   ChevronUp,
   KeyRound,
   Loader2,
-  ShieldCheck
+  ShieldCheck,
+  Trash2
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -17,18 +19,19 @@ import { formatDate } from "@/lib/utils";
 
 type AdminConsoleProps = {
   users: AdminUserView[];
+  currentUserId: string;
 };
 
 type ActionState = {
   target: string;
-  kind: "disable" | "reset" | "";
+  kind: "disable" | "reset" | "delete" | "";
 };
 
 function isUserDisabled(bannedUntil?: string) {
   return Boolean(bannedUntil && new Date(bannedUntil).getTime() > Date.now());
 }
 
-export function AdminConsole({ users }: AdminConsoleProps) {
+export function AdminConsole({ users, currentUserId }: AdminConsoleProps) {
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [actionState, setActionState] = useState<ActionState>({
@@ -48,7 +51,7 @@ export function AdminConsole({ users }: AdminConsoleProps) {
 
   async function runAction(
     userId: string,
-    kind: "disable" | "reset",
+    kind: "disable" | "reset" | "delete",
     body?: Record<string, unknown>
   ) {
     setFeedback((current) => ({ ...current, [userId]: "" }));
@@ -57,7 +60,9 @@ export function AdminConsole({ users }: AdminConsoleProps) {
     const endpoint =
       kind === "disable"
         ? `/api/admin/users/${userId}/status`
-        : `/api/admin/users/${userId}/reset`;
+        : kind === "reset"
+        ? `/api/admin/users/${userId}/reset`
+        : `/api/admin/users/${userId}/delete`;
 
     const response = await fetch(endpoint, {
       method: "POST",
@@ -112,6 +117,26 @@ export function AdminConsole({ users }: AdminConsoleProps) {
             Suites
           </p>
           <p className="mt-3 font-display text-5xl">{metrics.suites}</p>
+        </div>
+      </div>
+
+      <div className="relative overflow-hidden rounded-[32px] border border-red-500/40 bg-gradient-to-br from-red-950 via-rose-900 to-black/80 p-6 text-white shadow-[0_30px_90px_rgba(15,23,42,0.65)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(248,113,113,0.35),_transparent_50%)]" />
+        <div className="relative z-10 flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <span className="rounded-2xl bg-white/10 p-2 text-red-300">
+              <AlertOctagon className="h-5 w-5" />
+            </span>
+            <p className="font-display text-xl tracking-tight text-white">Danger zone ready</p>
+          </div>
+          <p className="max-w-3xl text-sm leading-7 text-white/80">
+            Deleting a user revokes every Supabase auth credential, clears their role assignment,
+            and irreversibly removes access to generated suites. Use the button group below
+            when you need to prune ghosts, spam accounts, or recovered trial users.
+          </p>
+          <p className="text-xs uppercase tracking-[0.4em] text-red-200">
+            This action is final — confirm carefully.
+          </p>
         </div>
       </div>
 
@@ -214,6 +239,30 @@ export function AdminConsole({ users }: AdminConsoleProps) {
                       <Ban className="h-4 w-4" />
                     )}
                     {disabled ? "Enable user" : "Disable user"}
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={
+                      isBusy || user.role === "admin" || user.id === currentUserId
+                    }
+                    className="w-full sm:w-auto"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          `Permanently delete ${user.email}? This cannot be undone.`
+                        )
+                      ) {
+                        runAction(user.id, "delete");
+                      }
+                    }}
+                  >
+                    {isBusy && actionState.kind === "delete" ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                    Delete user
                   </Button>
                   <Button
                     variant="ghost"

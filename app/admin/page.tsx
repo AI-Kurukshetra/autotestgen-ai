@@ -5,7 +5,7 @@ import { createAdminClient, requireAdminUser } from "@/lib/supabase/admin";
 import type { AdminUserView, TestGeneration, UserRoleRecord } from "@/lib/types";
 
 export default async function AdminPage() {
-  await requireAdminUser();
+  const currentUser = await requireAdminUser();
   const supabase = createAdminClient();
 
   const [{ data: usersData, error: usersError }, { data: roleRows }, { data: suitesData }] =
@@ -82,7 +82,7 @@ export default async function AdminPage() {
           </div>
         </section>
 
-        <AdminConsole users={users} />
+        <AdminConsole users={users} currentUserId={currentUser.id} />
       </div>
     </main>
   );

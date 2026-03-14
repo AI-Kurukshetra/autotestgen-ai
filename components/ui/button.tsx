@@ -12,6 +12,8 @@ const buttonVariants = cva(
           "bg-stone-950 text-stone-50 shadow-lg shadow-black/10 hover:-translate-y-0.5 hover:bg-stone-900",
         accent:
           "bg-primary text-primary-foreground shadow-lg shadow-orange-300/30 hover:-translate-y-0.5 hover:bg-primary/90",
+        destructive:
+          "bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white shadow-lg shadow-red-900/30 hover:-translate-y-0.5 hover:brightness-110",
         outline:
           "border border-black/15 bg-white/80 text-foreground hover:bg-white",
         ghost: "text-foreground hover:bg-black/5"
