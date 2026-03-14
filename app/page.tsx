@@ -194,7 +194,7 @@ export default async function HomePage() {
             </p>
             <p className="max-w-2xl text-sm leading-7 text-stone-600">
               Scan a page, extract its interactive structure, and turn it into runnable
-              Selenium, Playwright, or Cypress coverage for modern QA pipelines.
+              Selenium, Playwright, or Cypress coverage for modern QA pipelines.s
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
