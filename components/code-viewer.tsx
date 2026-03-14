@@ -46,14 +46,19 @@ export function CodeViewer({
   return (
     <div className="overflow-hidden rounded-[28px] border border-black/10 bg-stone-950 text-stone-50 shadow-panel">
       <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+        <div className="min-w-0">
           <p className="font-display text-xl">{framework}</p>
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-stone-400">
             {language} test output
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button onClick={handleCopy} variant="outline" size="sm" className="border-white/15 bg-white/5 text-white hover:bg-white/10">
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          <Button
+            onClick={handleCopy}
+            variant="outline"
+            size="sm"
+            className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+          >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? "Copied" : "Copy"}
           </Button>
@@ -72,7 +77,7 @@ export function CodeViewer({
           >
             {tokens.map((line, index) => (
               <div key={index} {...getLineProps({ line })}>
-                <span className="mr-4 inline-block w-8 select-none text-right text-stone-500">
+                <span className="mr-3 inline-block w-6 select-none text-right text-stone-500 sm:mr-4 sm:w-8">
                   {index + 1}
                 </span>
                 {line.map((token, tokenIndex) => (

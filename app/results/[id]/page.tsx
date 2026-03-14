@@ -35,7 +35,7 @@ export default async function ResultsPage({
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-14">
       <div className="space-y-6">
         <Link
           href="/dashboard"
@@ -49,7 +49,9 @@ export default async function ResultsPage({
           <div className="space-y-4">
             <div className="panel p-6">
               <span className="eyebrow">Generated suite</span>
-              <h1 className="mt-4 font-display text-4xl tracking-tight">{result.framework}</h1>
+              <h1 className="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
+                {result.framework}
+              </h1>
               <p className="mt-2 text-sm leading-7 text-stone-600">
                 Exported in {result.language} for the scanned target below.
               </p>

@@ -88,7 +88,7 @@ export function AdminConsole({ users }: AdminConsoleProps) {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div className="metric-card">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-400">
             Users
@@ -125,7 +125,7 @@ export function AdminConsole({ users }: AdminConsoleProps) {
               <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                 <div className="space-y-4">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h2 className="break-all font-display text-3xl tracking-tight">
+                    <h2 className="break-all font-display text-2xl tracking-tight sm:text-3xl">
                       {user.email}
                     </h2>
                     <span
@@ -176,11 +176,12 @@ export function AdminConsole({ users }: AdminConsoleProps) {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="grid w-full gap-2 sm:flex sm:flex-wrap sm:items-center lg:w-auto">
                   <Button
                     variant="outline"
                     size="sm"
                     disabled={isBusy}
+                    className="w-full sm:w-auto"
                     onClick={() =>
                       runAction(user.id, "reset", {
                         email: user.email
@@ -198,6 +199,7 @@ export function AdminConsole({ users }: AdminConsoleProps) {
                     variant={disabled ? "default" : "outline"}
                     size="sm"
                     disabled={isBusy || user.role === "admin"}
+                    className="w-full sm:w-auto"
                     onClick={() =>
                       runAction(user.id, "disable", {
                         disabled: !disabled
@@ -216,6 +218,7 @@ export function AdminConsole({ users }: AdminConsoleProps) {
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="w-full sm:w-auto"
                     onClick={() =>
                       setExpanded((current) => ({
                         ...current,

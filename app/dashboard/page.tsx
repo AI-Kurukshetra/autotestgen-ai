@@ -25,7 +25,7 @@ export default async function DashboardPage() {
     .limit(8);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-14">
       <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-8">
           <UrlForm />
@@ -34,7 +34,9 @@ export default async function DashboardPage() {
         <aside className="space-y-6">
           <div className="panel p-6">
             <span className="eyebrow">Operator notes</span>
-            <h2 className="mt-4 font-display text-3xl tracking-tight">Generation checklist</h2>
+            <h2 className="mt-4 font-display text-2xl tracking-tight sm:text-3xl">
+              Generation checklist
+            </h2>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-stone-600">
               <li>Use live URLs that allow server-side fetching.</li>
               <li>Stable selectors improve AI output quality and test resilience.</li>
@@ -46,7 +48,7 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <span className="eyebrow">History</span>
-                <h2 className="mt-4 font-display text-3xl tracking-tight">
+                <h2 className="mt-4 font-display text-2xl tracking-tight sm:text-3xl">
                   Recent test suites
                 </h2>
               </div>
@@ -61,8 +63,8 @@ export default async function DashboardPage() {
                     className="block rounded-[24px] border border-black/10 bg-white/70 p-4 transition hover:bg-white"
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="font-medium text-stone-900">{item.url}</p>
+                      <div className="min-w-0">
+                        <p className="break-all font-medium text-stone-900">{item.url}</p>
                         <p className="mt-2 text-xs uppercase tracking-[0.22em] text-stone-500">
                           {item.framework} · {item.language}
                         </p>

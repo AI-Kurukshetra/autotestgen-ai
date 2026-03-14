@@ -33,12 +33,14 @@ export default async function SettingsPage() {
   ];
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-14">
       <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <section className="space-y-6">
           <div className="panel p-6">
             <span className="eyebrow">Settings</span>
-            <h1 className="mt-4 font-display text-4xl tracking-tight">Account details</h1>
+            <h1 className="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
+              Account details
+            </h1>
             <p className="mt-3 text-sm leading-7 text-stone-600">
               Review the authentication details currently attached to your AutoTestGen AI
               workspace.
@@ -50,7 +52,7 @@ export default async function SettingsPage() {
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-400">
                 Primary identity
               </p>
-              <p className="mt-3 break-all font-display text-3xl">{user.email}</p>
+              <p className="mt-3 break-all font-display text-2xl sm:text-3xl">{user.email}</p>
             </div>
             <div className="grid gap-px bg-black/10 sm:grid-cols-2">
               <div className="bg-white px-6 py-5">

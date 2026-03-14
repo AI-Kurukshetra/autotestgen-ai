@@ -96,7 +96,7 @@ export function UrlForm() {
           <div className="space-y-6">
             <div className="space-y-3">
               <span className="eyebrow">Scan any production URL</span>
-              <h2 className="font-display text-4xl tracking-tight">
+              <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
                 Turn a live page into runnable automation scripts.
               </h2>
               <p className="max-w-2xl text-sm leading-6 text-stone-600">
@@ -187,8 +187,8 @@ export function UrlForm() {
           </div>
 
           <div className="panel p-6">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
                 <p className="font-display text-2xl">Selector Preview</p>
                 <p className="mt-2 text-sm text-stone-600">
                   First extracted interactive elements from the scanned page.
@@ -208,15 +208,17 @@ export function UrlForm() {
                   key={`${item.selector}-${item.tag}`}
                   className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3"
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="font-medium text-stone-900">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                    <p className="break-words font-medium text-stone-900">
                       {item.text || item.label || item.placeholder || item.tag}
                     </p>
                     <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-500">
                       {item.tag}
                     </span>
                   </div>
-                  <p className="mt-2 font-mono text-xs text-stone-500">{item.selector}</p>
+                  <p className="mt-2 overflow-x-auto font-mono text-xs text-stone-500">
+                    {item.selector}
+                  </p>
                 </div>
               ))}
             </div>
