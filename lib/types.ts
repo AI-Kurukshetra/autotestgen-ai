@@ -56,6 +56,13 @@ export type GenerateResponse = {
   code: string;
 };
 
+export type TestRunResponse = {
+  status: "passed" | "failed";
+  summary: string;
+  logs: string;
+  command: string;
+};
+
 export type UserRole = "admin" | "user";
 
 export type UserRoleRecord = {

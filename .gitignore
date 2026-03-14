@@ -12,5 +12,8 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
-README.md
 .vercel
+test-results/
+playwright-report/
+.autotestgen-run-*
+tsconfig.tsbuildinfo

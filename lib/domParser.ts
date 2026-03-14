@@ -250,8 +250,7 @@ export function parseDom(html: string, url: string): DomScanResult {
 export async function scanUrl(url: string) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (compatible; AutoTestGenAI/1.0; +https://vvtdgzcswhjcpjjorvjw.supabase.co)"
+      "User-Agent": "Mozilla/5.0 (compatible; AutoTestGenAI/1.0; +https://example.com)"
     },
     next: { revalidate: 0 }
   });

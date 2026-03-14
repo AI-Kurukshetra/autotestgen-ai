@@ -3,18 +3,19 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { CodeViewer } from "@/components/code-viewer";
+import { TestRunPanel } from "@/components/test-run-panel";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils";
 import type { TestGeneration } from "@/lib/types";
 
 export default async function ResultsPage({
-  params
+  params,
 }: {
   params: { id: string };
 }) {
   const supabase = createClient();
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -45,7 +46,7 @@ export default async function ResultsPage({
           Back to dashboard
         </Link>
 
-        <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr]">
+        <div className="grid gap-4 lg:grid-cols-[350px_1fr]">
           <div className="space-y-4">
             <div className="panel p-6">
               <span className="eyebrow">Generated suite</span>
@@ -77,12 +78,19 @@ export default async function ResultsPage({
             </div>
           </div>
 
-          <CodeViewer
-            code={result.generated_code}
-            framework={result.framework}
-            language={result.language}
-            url={result.url}
-          />
+          <div className="space-y-4 overflow-auto">
+            <CodeViewer
+              code={result.generated_code}
+              framework={result.framework}
+              language={result.language}
+              url={result.url}
+            />
+            <TestRunPanel
+              resultId={result.id}
+              framework={result.framework}
+              language={result.language}
+            />
+          </div>
         </div>
       </div>
     </main>
