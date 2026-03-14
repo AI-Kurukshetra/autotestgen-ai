@@ -3,7 +3,7 @@ import { Sparkles, Waypoints } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
-import { LogoutButton } from "@/components/logout-button";
+import { UserMenu } from "@/components/user-menu";
 import { cn } from "@/lib/utils";
 
 export async function Navbar() {
@@ -35,7 +35,7 @@ export async function Navbar() {
             Dashboard
           </Link>
           {user ? (
-            <LogoutButton />
+            <UserMenu email={user.email || "Unknown user"} />
           ) : (
             <>
               <Link

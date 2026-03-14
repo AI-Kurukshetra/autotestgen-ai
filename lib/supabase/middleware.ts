@@ -41,7 +41,9 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isProtected =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/results");
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/results") ||
+    pathname.startsWith("/settings");
   const isAuthLandingPage =
     pathname === "/auth/login" || pathname === "/auth/signup";
 
