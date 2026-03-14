@@ -34,7 +34,7 @@ export async function generateAutomationTest({
           {
             type: "input_text",
             text:
-              "You generate production-ready UI automation tests. Output only the final source code with no markdown fences, explanations, or commentary. Use resilient selectors from the DOM scan when possible. Include a small happy-path flow plus simple assertions when the framework supports it."
+              "You generate production-ready UI automation tests. Output only the final source code with no markdown fences, explanations, or commentary. Use resilient selectors from the DOM scan when possible. Include a small happy-path flow, simple assertions when the framework supports them, and at least one sensible edge-case or negative-path check when the available DOM structure makes that possible."
           }
         ]
       },
@@ -43,7 +43,7 @@ export async function generateAutomationTest({
         content: [
           {
             type: "input_text",
-            text: `Generate a ${framework} test suite in ${language} for ${url} using this DOM summary:\n${JSON.stringify(
+            text: `Generate a ${framework} test suite in ${language} for ${url} using this DOM summary. Prefer stable selectors, cover the main user flow, and add one realistic failure or validation scenario when the page elements support it.\n${JSON.stringify(
               domStructure,
               null,
               2
