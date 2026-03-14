@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, Waypoints } from "lucide-react";
+import { ShieldCheck, Sparkles, Waypoints } from "lucide-react";
 
 import { getCurrentUserRole } from "@/lib/supabase/admin";
 import { buttonVariants } from "@/components/ui/button";
@@ -31,6 +31,15 @@ export async function Navbar() {
           >
             Dashboard
           </Link>
+          {user && role === "admin" ? (
+            <Link
+              href="/admin"
+              className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+            >
+              <ShieldCheck className="h-4 w-4" />
+              Admin
+            </Link>
+          ) : null}
           {user ? (
             <UserMenu email={user.email || "Unknown user"} isAdmin={role === "admin"} />
           ) : (
