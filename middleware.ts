@@ -11,6 +11,7 @@ export const config = {
     "/results/:path*",
     "/settings/:path*",
     "/admin/:path*",
-    "/auth/:path*"
+    "/auth/:path*",
+    "/contact"
   ]
 };

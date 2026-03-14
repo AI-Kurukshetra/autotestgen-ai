@@ -7,7 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
-  useTransition
+  useTransition,
 } from "react";
 
 import { FrameworkSelect } from "@/components/framework-select";
@@ -150,6 +150,24 @@ export function UrlForm() {
                 required
               />
             </div>
+            <Button
+              className="w-full"
+              variant="accent"
+              size="lg"
+              disabled={isWorking || isPending}
+            >
+              {isWorking ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Working...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4" />
+                  Generate Test
+                </>
+              )}
+            </Button>
           </div>
 
           <div className="rounded-[28px] border border-black/10 bg-stone-950 p-5 text-stone-50">
