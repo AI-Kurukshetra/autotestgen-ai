@@ -43,7 +43,8 @@ export async function updateSession(request: NextRequest) {
   const isProtected =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/results") ||
-    pathname.startsWith("/settings");
+    pathname.startsWith("/settings") ||
+    pathname.startsWith("/admin");
   const isAuthLandingPage =
     pathname === "/auth/login" || pathname === "/auth/signup";
 
@@ -52,6 +53,21 @@ export async function updateSession(request: NextRequest) {
     redirectUrl.pathname = "/auth/login";
     redirectUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
+  }
+
+  if (pathname.startsWith("/admin") && user) {
+    const { data: roleData } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (roleData?.role !== "admin") {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/dashboard";
+      redirectUrl.search = "";
+      return NextResponse.redirect(redirectUrl);
+    }
   }
 
   if (isAuthLandingPage && user) {

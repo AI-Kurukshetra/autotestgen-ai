@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { Sparkles, Waypoints } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUserRole } from "@/lib/supabase/admin";
 import { buttonVariants } from "@/components/ui/button";
 import { UserMenu } from "@/components/user-menu";
 import { cn } from "@/lib/utils";
 
 export async function Navbar() {
-  const supabase = createClient();
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+  const { user, role } = await getCurrentUserRole();
 
   return (
     <header className="sticky top-0 z-30 border-b border-black/10 bg-background/80 backdrop-blur">
@@ -35,7 +32,7 @@ export async function Navbar() {
             Dashboard
           </Link>
           {user ? (
-            <UserMenu email={user.email || "Unknown user"} />
+            <UserMenu email={user.email || "Unknown user"} isAdmin={role === "admin"} />
           ) : (
             <>
               <Link

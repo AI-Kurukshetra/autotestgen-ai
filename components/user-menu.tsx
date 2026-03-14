@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown, LogOut, Settings, UserCircle2 } from "lucide-react";
+import { ChevronDown, LogOut, Settings, ShieldCheck, UserCircle2 } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,9 +9,10 @@ import { createClient } from "@/lib/supabaseClient";
 
 type UserMenuProps = {
   email: string;
+  isAdmin?: boolean;
 };
 
-export function UserMenu({ email }: UserMenuProps) {
+export function UserMenu({ email, isAdmin = false }: UserMenuProps) {
   const supabase = createClient();
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -83,6 +84,16 @@ export function UserMenu({ email }: UserMenuProps) {
           </div>
 
           <div className="mt-3 space-y-1">
+            {isAdmin ? (
+              <Link
+                href="/admin"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-stone-700 transition hover:bg-stone-100 hover:text-stone-950"
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Admin
+              </Link>
+            ) : null}
             <Link
               href="/settings"
               onClick={() => setOpen(false)}

@@ -55,3 +55,23 @@ export type GenerateResponse = {
   id: string;
   code: string;
 };
+
+export type UserRole = "admin" | "user";
+
+export type UserRoleRecord = {
+  user_id: string;
+  role: UserRole;
+  created_at: string;
+};
+
+export type AdminUserView = {
+  id: string;
+  email: string;
+  role: UserRole;
+  created_at: string;
+  email_confirmed_at?: string;
+  last_sign_in_at?: string;
+  banned_until?: string;
+  suite_count: number;
+  suites: TestGeneration[];
+};
