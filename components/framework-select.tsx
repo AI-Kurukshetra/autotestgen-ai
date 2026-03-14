@@ -13,12 +13,12 @@ export function FrameworkSelect<T extends string>({
   label,
   value,
   options,
-  onChange
+  onChange,
 }: FrameworkSelectProps<T>) {
   return (
     <div className="space-y-3">
       <p className="font-mono text-xs uppercase tracking-[0.24em] text-stone-500">
-        {label}
+        Select {label}
       </p>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => {
@@ -31,8 +31,8 @@ export function FrameworkSelect<T extends string>({
               className={cn(
                 "rounded-full border px-4 py-2 text-sm transition",
                 active
-                  ? "border-stone-950 bg-stone-950 text-white"
-                  : "border-black/10 bg-white/70 text-stone-700 hover:bg-white"
+                  ? "border-black/10 bg-white text-stone-700 hover:bg-white "
+                  : "border-white-10 text-white",
               )}
             >
               {option}
