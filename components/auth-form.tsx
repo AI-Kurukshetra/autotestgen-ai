@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,8 +19,10 @@ export function AuthForm({ mode }: AuthFormProps) {
   const supabase = createClient();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const id = useId();
   const next = searchParams?.get("next") || "/dashboard";
   const queryMessage = searchParams?.get("message") || "";
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -79,10 +81,21 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
 
+      const trimmedName = name.trim();
+
+      if (!trimmedName) {
+        setError("Please enter your name.");
+        return;
+      }
+
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          data: {
+            name: trimmedName,
+            full_name: trimmedName
+          },
           emailRedirectTo: getDashboardUrl()
         }
       });
@@ -122,22 +135,61 @@ export function AuthForm({ mode }: AuthFormProps) {
       </div>
 
       <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-        <Input
-          autoComplete="email"
-          placeholder="team@company.com"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
-        <PasswordInput
-          autoComplete={mode === "login" ? "current-password" : "new-password"}
-          minLength={6}
-          placeholder="Minimum 6 characters"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
+        {mode === "signup" ? (
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-medium text-stone-800"
+              htmlFor={`${id}-name`}
+            >
+              Full name
+            </label>
+            <Input
+              id={`${id}-name`}
+              autoComplete="name"
+              placeholder="Jane Doe"
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
+          </div>
+        ) : null}
+
+        <div className="space-y-2">
+          <label
+            className="block text-sm font-medium text-stone-800"
+            htmlFor={`${id}-email`}
+          >
+            Email address
+          </label>
+          <Input
+            id={`${id}-email`}
+            autoComplete="email"
+            placeholder="team@company.com"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label
+            className="block text-sm font-medium text-stone-800"
+            htmlFor={`${id}-password`}
+          >
+            Password
+          </label>
+          <PasswordInput
+            id={`${id}-password`}
+            autoComplete={mode === "login" ? "current-password" : "new-password"}
+            minLength={6}
+            placeholder="Minimum 6 characters"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+        </div>
         {mode === "login" ? (
           <div className="flex justify-end">
             <Link

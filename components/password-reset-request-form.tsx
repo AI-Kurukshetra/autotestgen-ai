@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { createClient } from "@/lib/supabaseClient";
 export function PasswordResetRequestForm() {
   const supabase = createClient();
   const searchParams = useSearchParams();
+  const id = useId();
   const [email, setEmail] = useState(searchParams?.get("email") || "");
   const [message, setMessage] = useState(searchParams?.get("message") || "");
   const [error, setError] = useState(searchParams?.get("error") || "");
@@ -56,14 +57,23 @@ export function PasswordResetRequestForm() {
       </div>
 
       <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-        <Input
-          autoComplete="email"
-          placeholder="team@company.com"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-        />
+        <div className="space-y-2">
+          <label
+            className="block text-sm font-medium text-stone-800"
+            htmlFor={`${id}-email`}
+          >
+            Email address
+          </label>
+          <Input
+            id={`${id}-email`}
+            autoComplete="email"
+            placeholder="team@company.com"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
+        </div>
         <Button className="w-full" variant="accent" size="lg" disabled={isSubmitting}>
           {isSubmitting ? "Sending..." : "Send reset link"}
         </Button>

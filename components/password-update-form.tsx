@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { createClient } from "@/lib/supabaseClient";
 
 export function PasswordUpdateForm() {
   const supabase = createClient();
   const router = useRouter();
+  const id = useId();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -106,22 +106,40 @@ export function PasswordUpdateForm() {
         </div>
       ) : (
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-          <PasswordInput
-            autoComplete="new-password"
-            minLength={6}
-            placeholder="New password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-          <PasswordInput
-            autoComplete="new-password"
-            minLength={6}
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            required
-          />
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-medium text-stone-800"
+              htmlFor={`${id}-password`}
+            >
+              New password
+            </label>
+            <PasswordInput
+              id={`${id}-password`}
+              autoComplete="new-password"
+              minLength={6}
+              placeholder="New password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-medium text-stone-800"
+              htmlFor={`${id}-confirm-password`}
+            >
+              Confirm new password
+            </label>
+            <PasswordInput
+              id={`${id}-confirm-password`}
+              autoComplete="new-password"
+              minLength={6}
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              required
+            />
+          </div>
           <Button className="w-full" variant="accent" size="lg" disabled={isSubmitting}>
             {isSubmitting ? "Updating..." : "Update password"}
           </Button>
