@@ -46,6 +46,12 @@ export default async function ResultsPage({
           Back to dashboard
         </Link>
 
+        <TestRunPanel
+          resultId={result.id}
+          framework={result.framework}
+          language={result.language}
+        />
+
         <div className="grid gap-4 lg:grid-cols-[350px_1fr]">
           <div className="space-y-4">
             <div className="panel p-6">
@@ -84,11 +90,6 @@ export default async function ResultsPage({
               framework={result.framework}
               language={result.language}
               url={result.url}
-            />
-            <TestRunPanel
-              resultId={result.id}
-              framework={result.framework}
-              language={result.language}
             />
           </div>
         </div>
