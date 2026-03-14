@@ -45,8 +45,7 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith("/results") ||
     pathname.startsWith("/settings") ||
     pathname.startsWith("/admin");
-  const isAuthLandingPage =
-    pathname === "/auth/login" || pathname === "/auth/signup";
+  const isAuthPage = pathname.startsWith("/auth");
 
   if (isProtected && !user) {
     const redirectUrl = request.nextUrl.clone();
@@ -70,7 +69,7 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (isAuthLandingPage && user) {
+  if (isAuthPage && user) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/dashboard";
     redirectUrl.search = "";
