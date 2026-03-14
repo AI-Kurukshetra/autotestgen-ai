@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { createClient } from "@/lib/supabaseClient";
 
 export function PasswordUpdateForm() {
@@ -105,20 +106,18 @@ export function PasswordUpdateForm() {
         </div>
       ) : (
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-          <Input
+          <PasswordInput
             autoComplete="new-password"
             minLength={6}
             placeholder="New password"
-            type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
           />
-          <Input
+          <PasswordInput
             autoComplete="new-password"
             minLength={6}
             placeholder="Confirm new password"
-            type="password"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             required

@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { createClient } from "@/lib/supabaseClient";
 
 type AuthFormProps = {
@@ -92,11 +93,10 @@ export function AuthForm({ mode }: AuthFormProps) {
           onChange={(event) => setEmail(event.target.value)}
           required
         />
-        <Input
+        <PasswordInput
           autoComplete={mode === "login" ? "current-password" : "new-password"}
           minLength={6}
           placeholder="Minimum 6 characters"
-          type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
