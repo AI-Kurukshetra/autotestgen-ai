@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getAuthErrorMessage } from "@/lib/auth-error-message";
 import { createClient } from "@/lib/supabaseClient";
 
 export function PasswordResetRequestForm() {
@@ -29,7 +30,7 @@ export function PasswordResetRequestForm() {
       });
 
       if (resetError) {
-        setError(resetError.message);
+        setError(getAuthErrorMessage(resetError.message));
         return;
       }
 

@@ -7,6 +7,7 @@ import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { getAuthErrorMessage } from "@/lib/auth-error-message";
 import { createClient } from "@/lib/supabaseClient";
 
 type AuthFormProps = {
@@ -43,7 +44,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         });
 
         if (signInError) {
-          setError(signInError.message);
+          setError(getAuthErrorMessage(signInError.message));
           return;
         }
 
@@ -83,7 +84,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       });
 
       if (signUpError) {
-        setError(signUpError.message);
+        setError(getAuthErrorMessage(signUpError.message));
         return;
       }
 
