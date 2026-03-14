@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   TestTube2,
   Users,
-  Zap
+  Zap,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -23,80 +23,74 @@ const pillars = [
   {
     icon: ScanLine,
     title: "Automated DOM analysis",
-    copy:
-      "Cheerio-powered extraction identifies forms, buttons, links, navigation, and modal structures without manual selector hunting."
+    copy: "Cheerio-powered extraction identifies forms, buttons, links, navigation, and modal structures without manual selector hunting.",
   },
   {
     icon: TestTube2,
     title: "Framework-ready output",
-    copy:
-      "Generate suites for Playwright, Cypress, or Selenium in JavaScript, Python, Java, or C# from a single scan."
+    copy: "Generate suites for Playwright, Cypress, or Selenium in JavaScript, Python, Java, or C# from a single scan.",
   },
   {
     icon: Bug,
     title: "Edge and negative paths",
-    copy:
-      "The generator is tuned to include happy-path coverage plus sensible failure and edge-case handling when the page structure allows it."
+    copy: "The generator is tuned to include happy-path coverage plus sensible failure and edge-case handling when the page structure allows it.",
   },
   {
     icon: Download,
     title: "Export and handoff",
-    copy:
-      "Copy or download generated scripts so they can move directly into repos, QA workflows, or delivery checklists."
+    copy: "Copy or download generated scripts so they can move directly into repos, QA workflows, or delivery checklists.",
   },
   {
     icon: ShieldCheck,
     title: "Saved generation history",
-    copy:
-      "Authenticated users keep a persistent record of generated suites inside their workspace for reuse and iteration."
+    copy: "Authenticated users keep a persistent record of generated suites inside their workspace for reuse and iteration.",
   },
   {
     icon: GitBranch,
     title: "CI/CD-ready positioning",
-    copy:
-      "Generated outputs are structured for pipeline use, with team collaboration and API-based integration positioned as the next product layer."
-  }
+    copy: "Generated outputs are structured for pipeline use, with team collaboration and API-based integration positioned as the next product layer.",
+  },
 ];
 
 const audiences = [
   {
     icon: Users,
     title: "QA engineers and testers",
-    copy: "Cut repetitive authoring work and move faster from URL to executable coverage."
+    copy: "Cut repetitive authoring work and move faster from URL to executable coverage.",
   },
   {
     icon: Braces,
     title: "Frontend and full-stack developers",
-    copy: "Create a usable regression baseline without building every selector and flow by hand."
+    copy: "Create a usable regression baseline without building every selector and flow by hand.",
   },
   {
     icon: Building2,
     title: "Software teams",
-    copy: "Standardize framework output and reduce the time between shipping UI and validating it."
+    copy: "Standardize framework output and reduce the time between shipping UI and validating it.",
   },
   {
     icon: Zap,
     title: "Lean startups",
-    copy: "Get QA leverage early when dedicated automation resources are still limited."
-  }
+    copy: "Get QA leverage early when dedicated automation resources are still limited.",
+  },
 ];
 
 const workflow = [
   {
     step: "01",
     title: "Scan a live URL",
-    copy: "Submit a public page and let the platform inspect interactive structure across the DOM."
+    copy: "Submit a public page and let the platform inspect interactive structure across the DOM.",
   },
   {
     step: "02",
     title: "Choose stack and language",
-    copy: "Select Selenium, Playwright, or Cypress and match the output to your engineering environment."
+    copy: "Select Selenium, Playwright, or Cypress and match the output to your engineering environment.",
   },
   {
     step: "03",
     title: "Generate runnable coverage",
-    copy: "Receive production-oriented tests with selectors, flows, and assertions ready for handoff."
-  }
+    copy: "Receive production-oriented tests with selectors, flows, and assertions ready for handoff.",
+  },
 ];
 
 const pricing = [
@@ -109,8 +103,8 @@ const pricing = [
     bullets: [
       "Limited page scans",
       "Single-user workflow",
-      "Download generated scripts"
-    ]
+      "Download generated scripts",
+    ],
   },
   {
     name: "Pro",
@@ -121,8 +115,8 @@ const pricing = [
     bullets: [
       "Unlimited scans",
       "Priority generation workflow",
-      "Power-user QA velocity"
-    ]
+      "Power-user QA velocity",
+    ],
   },
   {
     name: "Team",
@@ -133,8 +127,8 @@ const pricing = [
     bullets: [
       "Collaboration features",
       "Shared visibility across suites",
-      "Team-oriented workspace controls"
-    ]
+      "Team-oriented workspace controls",
+    ],
   },
   {
     name: "API",
@@ -145,56 +139,59 @@ const pricing = [
     bullets: [
       "CI/CD pipeline access",
       "Programmatic generation flows",
-      "Integration-first delivery model"
-    ]
-  }
+      "Integration-first delivery model",
+    ],
+  },
 ];
 
 const faqs = [
   {
     question: "What is already live in this MVP?",
     answer:
-      "Signup, login, page scanning, multi-framework generation, result download, generation history, and admin controls are already implemented in the current product."
+      "Signup, login, page scanning, multi-framework generation, result download, generation history, and admin controls are already implemented in the current product.",
   },
   {
     question: "Does the app support real billing yet?",
     answer:
-      "Not yet. The pricing section reflects the monetization strategy defined in the project document, while the current build is positioned as the product-ready MVP."
+      "Not yet. The pricing section reflects the monetization strategy defined in the project document, while the current build is positioned as the product-ready MVP.",
   },
   {
     question: "Can I use generated suites in CI/CD today?",
     answer:
-      "You can already export and move the generated scripts into your own repositories and pipelines. Direct API-based CI/CD access is positioned as a next-layer product feature."
+      "You can already export and move the generated scripts into your own repositories and pipelines. Direct API-based CI/CD access is positioned as a next-layer product feature.",
   },
   {
     question: "What kind of pages work best?",
     answer:
-      "Pages that are publicly reachable from the server and use stable selectors work best. The generator can only reason over what the scan can reliably extract."
-  }
+      "Pages that are publicly reachable from the server and use stable selectors work best. The generator can only reason over what the scan can reliably extract.",
+  },
 ];
 
 export default async function HomePage() {
   const supabase = createClient();
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser();
 
   return (
     <main className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:px-10 lg:py-16">
       <section className="grid gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
         <div className="space-y-6 sm:space-y-8">
-          <span className="eyebrow">AI-powered automated test suite generator</span>
+          <span className="eyebrow">
+            AI-powered automated test suite generator
+          </span>
           <div className="space-y-5">
             <h1 className="max-w-4xl font-display text-5xl leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-7xl lg:text-[6.2rem]">
               AutoTestGen AI
             </h1>
             <p className="max-w-2xl text-base leading-7 text-stone-700 sm:text-lg sm:leading-8">
-              Generate production-ready automation suites from any webpage in minutes,
-              not days.
+              Generate production-ready automation suites from any webpage in
+              minutes, not days.
             </p>
             <p className="max-w-2xl text-sm leading-7 text-stone-600">
-              Scan a page, extract its interactive structure, and turn it into runnable
-              Selenium, Playwright, or Cypress coverage for modern QA pipelines.s
+              Scan a page, extract its interactive structure, and turn it into
+              runnable Selenium, Playwright, or Cypress coverage for modern QA
+              pipelines.{" "}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -202,7 +199,7 @@ export default async function HomePage() {
               href={user ? "/dashboard" : "/auth/signup"}
               className={cn(
                 buttonVariants({ variant: "accent", size: "lg" }),
-                "w-full sm:w-auto"
+                "w-full sm:w-auto",
               )}
             >
               Start Generating
@@ -212,7 +209,7 @@ export default async function HomePage() {
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "w-full sm:w-auto"
+                "w-full sm:w-auto",
               )}
             >
               Open Dashboard
@@ -235,7 +232,9 @@ export default async function HomePage() {
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-500">
                 Workflow
               </p>
-              <p className="mt-2 font-display text-3xl text-stone-950">Scan → Code</p>
+              <p className="mt-2 font-display text-3xl text-stone-950">
+                Scan → Code
+              </p>
             </div>
           </div>
         </div>
@@ -289,7 +288,7 @@ export default async function HomePage() {
                 </p>
               </div>
               <pre className="mt-4 overflow-x-auto font-mono text-xs leading-6 text-stone-300">
-{`test('login flow', async ({ page }) => {
+                {`test('login flow', async ({ page }) => {
   await page.goto('https://example.com/login')
   await page.fill('#email', 'qa@example.com')
   await page.fill('#password', 'secret')
@@ -309,9 +308,10 @@ export default async function HomePage() {
             Test authoring is still a drag on release speed.
           </h2>
           <p className="mt-4 text-sm leading-7 text-stone-600">
-            QA teams still spend too much time inspecting pages, identifying selectors,
-            and scripting repetitive paths by hand. That slows release cycles and adds
-            cost, especially for teams without large QA capacity.
+            QA teams still spend too much time inspecting pages, identifying
+            selectors, and scripting repetitive paths by hand. That slows
+            release cycles and adds cost, especially for teams without large QA
+            capacity.
           </p>
         </div>
 
@@ -321,9 +321,9 @@ export default async function HomePage() {
             AutoTestGen AI converts UI structure into runnable coverage.
           </h2>
           <p className="mt-4 text-sm leading-7 text-stone-600">
-            Submit a URL, analyze the DOM, and generate framework-specific automation
-            code with practical assertions, export-ready files, and a clear path into
-            CI/CD workflows.
+            Submit a URL, analyze the DOM, and generate framework-specific
+            automation code with practical assertions, export-ready files, and a
+            clear path into CI/CD workflows.
           </p>
         </div>
       </section>
@@ -346,7 +346,9 @@ export default async function HomePage() {
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-5 font-display text-2xl">{audience.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-stone-600">{audience.copy}</p>
+                <p className="mt-3 text-sm leading-7 text-stone-600">
+                  {audience.copy}
+                </p>
               </div>
             );
           })}
@@ -371,7 +373,9 @@ export default async function HomePage() {
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-5 font-display text-2xl">{pillar.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-stone-600">{pillar.copy}</p>
+                <p className="mt-3 text-sm leading-7 text-stone-600">
+                  {pillar.copy}
+                </p>
               </div>
             );
           })}
@@ -385,8 +389,9 @@ export default async function HomePage() {
             From webpage to automation suite in three steps
           </h2>
           <p className="mt-4 text-sm leading-7 text-stone-600">
-            The platform is designed as a compact QA pipeline: scan, interpret, and
-            ship generated code into the next stage of your delivery process.
+            The platform is designed as a compact QA pipeline: scan, interpret,
+            and ship generated code into the next stage of your delivery
+            process.
           </p>
         </div>
 
@@ -397,7 +402,9 @@ export default async function HomePage() {
                 Step {item.step}
               </p>
               <h3 className="mt-4 font-display text-2xl">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-600">{item.copy}</p>
+              <p className="mt-3 text-sm leading-7 text-stone-600">
+                {item.copy}
+              </p>
             </div>
           ))}
         </div>
@@ -411,9 +418,9 @@ export default async function HomePage() {
           </h2>
           <p className="max-w-3xl text-sm leading-7 text-stone-600">
             The PDF explicitly defines a free tier, a $19/month Pro plan, team
-            collaboration, and API access for CI/CD. The cards below position those
-            offers on the landing page while making clear which layers are roadmap
-            versus current MVP packaging.
+            collaboration, and API access for CI/CD. The cards below position
+            those offers on the landing page while making clear which layers are
+            roadmap versus current MVP packaging.
           </p>
         </div>
 
@@ -423,7 +430,9 @@ export default async function HomePage() {
               key={plan.name}
               className={cn(
                 "panel flex h-full flex-col p-6",
-                plan.featured ? "border-primary/40 bg-white shadow-orange-200/40" : ""
+                plan.featured
+                  ? "border-primary/40 bg-white shadow-orange-200/40"
+                  : "",
               )}
             >
               <div className="flex items-start justify-between gap-4">
@@ -447,7 +456,9 @@ export default async function HomePage() {
               </div>
 
               <div className="mt-6">
-                <p className="font-display text-5xl tracking-tight">{plan.price}</p>
+                <p className="font-display text-5xl tracking-tight">
+                  {plan.price}
+                </p>
                 {plan.cadence ? (
                   <p className="mt-1 text-sm text-stone-500">{plan.cadence}</p>
                 ) : null}
@@ -470,9 +481,9 @@ export default async function HomePage() {
                   className={cn(
                     buttonVariants({
                       variant: plan.featured ? "accent" : "outline",
-                      size: "default"
+                      size: "default",
                     }),
-                    "w-full rounded-2xl"
+                    "w-full rounded-2xl",
                   )}
                 >
                   {plan.name === "Free"
@@ -494,8 +505,9 @@ export default async function HomePage() {
             Questions a new user will ask first
           </h2>
           <p className="mt-4 text-sm leading-7 text-stone-600">
-            The product document is ambitious. This section makes the live MVP scope
-            easier to understand before someone signs up and starts scanning URLs.
+            The product document is ambitious. This section makes the live MVP
+            scope easier to understand before someone signs up and starts
+            scanning URLs.
           </p>
         </div>
 
@@ -503,7 +515,9 @@ export default async function HomePage() {
           {faqs.map((item) => (
             <div key={item.question} className="panel p-6">
               <h3 className="font-display text-2xl">{item.question}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-600">{item.answer}</p>
+              <p className="mt-3 text-sm leading-7 text-stone-600">
+                {item.answer}
+              </p>
             </div>
           ))}
         </div>
@@ -515,12 +529,14 @@ export default async function HomePage() {
           <div className="max-w-3xl space-y-4">
             <span className="eyebrow">Next step</span>
             <h2 className="font-display text-3xl tracking-tight sm:text-4xl lg:text-5xl">
-              Start with the current MVP and turn UI surfaces into automation coverage.
+              Start with the current MVP and turn UI surfaces into automation
+              coverage.
             </h2>
             <p className="text-sm leading-7 text-stone-600">
-              From a user perspective, the core value is already here: authenticate,
-              scan, generate, export, and revisit saved suites. The next product layer
-              is monetization, collaboration, and API delivery.
+              From a user perspective, the core value is already here:
+              authenticate, scan, generate, export, and revisit saved suites.
+              The next product layer is monetization, collaboration, and API
+              delivery.
             </p>
           </div>
 
@@ -529,7 +545,7 @@ export default async function HomePage() {
               href={user ? "/dashboard" : "/auth/signup"}
               className={cn(
                 buttonVariants({ variant: "accent", size: "lg" }),
-                "w-full sm:w-auto"
+                "w-full sm:w-auto",
               )}
             >
               Create workspace
@@ -538,7 +554,7 @@ export default async function HomePage() {
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "w-full sm:w-auto"
+                "w-full sm:w-auto",
               )}
             >
               Explore the app
