@@ -3,12 +3,14 @@ import { ShieldCheck, Sparkles, Waypoints } from "lucide-react";
 
 import { MobileNav } from "@/components/mobile-nav";
 import { getCurrentUserRole } from "@/lib/supabase/admin";
+import { getUserDisplayName } from "@/lib/user-display";
 import { buttonVariants } from "@/components/ui/button";
 import { UserMenu } from "@/components/user-menu";
 import { cn } from "@/lib/utils";
 
 export async function Navbar() {
   const { user, role } = await getCurrentUserRole();
+  const displayName = getUserDisplayName(user);
 
   return (
     <header className="sticky top-0 z-30 border-b border-black/10 bg-background/80 backdrop-blur">
@@ -44,7 +46,11 @@ export async function Navbar() {
             </Link>
           ) : null}
           {user ? (
-            <UserMenu email={user.email || "Unknown user"} isAdmin={role === "admin"} />
+            <UserMenu
+              email={user.email || "Unknown user"}
+              displayName={displayName}
+              isAdmin={role === "admin"}
+            />
           ) : (
             <>
               <Link
@@ -64,7 +70,11 @@ export async function Navbar() {
           )}
         </nav>
 
-        <MobileNav email={user?.email} isAdmin={role === "admin"} />
+        <MobileNav
+          email={user?.email}
+          displayName={user ? displayName : undefined}
+          isAdmin={role === "admin"}
+        />
       </div>
     </header>
   );

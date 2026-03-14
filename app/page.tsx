@@ -150,6 +150,29 @@ const pricing = [
   }
 ];
 
+const faqs = [
+  {
+    question: "What is already live in this MVP?",
+    answer:
+      "Signup, login, page scanning, multi-framework generation, result download, generation history, and admin controls are already implemented in the current product."
+  },
+  {
+    question: "Does the app support real billing yet?",
+    answer:
+      "Not yet. The pricing section reflects the monetization strategy defined in the project document, while the current build is positioned as the product-ready MVP."
+  },
+  {
+    question: "Can I use generated suites in CI/CD today?",
+    answer:
+      "You can already export and move the generated scripts into your own repositories and pipelines. Direct API-based CI/CD access is positioned as a next-layer product feature."
+  },
+  {
+    question: "What kind of pages work best?",
+    answer:
+      "Pages that are publicly reachable from the server and use stable selectors work best. The generator can only reason over what the scan can reliably extract."
+  }
+];
+
 export default async function HomePage() {
   const supabase = createClient();
   const {
@@ -440,8 +463,87 @@ export default async function HomePage() {
                   </div>
                 ))}
               </div>
+
+              <div className="mt-6">
+                <Link
+                  href={user ? "/dashboard" : "/auth/signup"}
+                  className={cn(
+                    buttonVariants({
+                      variant: plan.featured ? "accent" : "outline",
+                      size: "default"
+                    }),
+                    "w-full rounded-2xl"
+                  )}
+                >
+                  {plan.name === "Free"
+                    ? "Start free workspace"
+                    : plan.name === "Pro"
+                      ? "Use the MVP now"
+                      : "Join from the MVP"}
+                </Link>
+              </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
+        <div className="panel p-6">
+          <span className="eyebrow">FAQ</span>
+          <h2 className="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
+            Questions a new user will ask first
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-stone-600">
+            The product document is ambitious. This section makes the live MVP scope
+            easier to understand before someone signs up and starts scanning URLs.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((item) => (
+            <div key={item.question} className="panel p-6">
+              <h3 className="font-display text-2xl">{item.question}</h3>
+              <p className="mt-3 text-sm leading-7 text-stone-600">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel relative overflow-hidden p-6 sm:p-8">
+        <div className="absolute inset-0 bg-grid bg-[size:22px_22px] opacity-30" />
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl space-y-4">
+            <span className="eyebrow">Next step</span>
+            <h2 className="font-display text-3xl tracking-tight sm:text-4xl lg:text-5xl">
+              Start with the current MVP and turn UI surfaces into automation coverage.
+            </h2>
+            <p className="text-sm leading-7 text-stone-600">
+              From a user perspective, the core value is already here: authenticate,
+              scan, generate, export, and revisit saved suites. The next product layer
+              is monetization, collaboration, and API delivery.
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <Link
+              href={user ? "/dashboard" : "/auth/signup"}
+              className={cn(
+                buttonVariants({ variant: "accent", size: "lg" }),
+                "w-full sm:w-auto"
+              )}
+            >
+              Create workspace
+            </Link>
+            <Link
+              href="/dashboard"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "w-full sm:w-auto"
+              )}
+            >
+              Explore the app
+            </Link>
+          </div>
         </div>
       </section>
     </main>

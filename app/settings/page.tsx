@@ -2,6 +2,7 @@ import { BadgeCheck, CalendarClock, Mail } from "lucide-react";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { getUserDisplayName } from "@/lib/user-display";
 import { formatDate } from "@/lib/utils";
 
 export default async function SettingsPage() {
@@ -14,6 +15,8 @@ export default async function SettingsPage() {
     redirect("/auth/login");
   }
 
+  const displayName = getUserDisplayName(user);
+
   const { count } = await supabase
     .from("test_generations")
     .select("*", { count: "exact", head: true })
@@ -24,6 +27,11 @@ export default async function SettingsPage() {
       icon: Mail,
       label: "Email address",
       value: user.email || "Not available"
+    },
+    {
+      icon: BadgeCheck,
+      label: "Display name",
+      value: displayName
     },
     {
       icon: CalendarClock,
@@ -39,7 +47,7 @@ export default async function SettingsPage() {
           <div className="panel p-6">
             <span className="eyebrow">Settings</span>
             <h1 className="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
-              Account details
+              {displayName}&apos;s account
             </h1>
             <p className="mt-3 text-sm leading-7 text-stone-600">
               Review the authentication details currently attached to your AutoTestGen AI

@@ -2,40 +2,60 @@
 
 import { Loader2, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useDeferredValue, useState, useTransition } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+  useTransition
+} from "react";
 
 import { FrameworkSelect } from "@/components/framework-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { DomScanResult, Framework, GenerateResponse, Language } from "@/lib/types";
+import type {
+  DomScanResult,
+  Framework,
+  GenerateResponse,
+  Language,
+} from "@/lib/types";
 
 const frameworkOptions = ["Playwright", "Cypress", "Selenium"] as const;
 const languageOptions = ["JavaScript", "Python", "Java", "C#"] as const;
 
 export function UrlForm() {
   const router = useRouter();
+  const urlInputRef = useRef<HTMLInputElement>(null);
   const [url, setUrl] = useState("");
   const [framework, setFramework] = useState<Framework>("Playwright");
   const [language, setLanguage] = useState<Language>("JavaScript");
   const [domPreview, setDomPreview] = useState<DomScanResult | null>(null);
   const [error, setError] = useState("");
   const [isWorking, setIsWorking] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const deferredPreview = useDeferredValue(domPreview);
+
+  useEffect(() => {
+    urlInputRef.current?.focus();
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setIsWorking(true);
+    setStatusMessage(
+      "Scanning the target page and collecting interactive elements...",
+    );
 
     try {
       const scanResponse = await fetch("/api/scan", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url })
+        body: JSON.stringify({ url }),
       });
 
       if (!scanResponse.ok) {
@@ -45,18 +65,21 @@ export function UrlForm() {
 
       const domStructure = (await scanResponse.json()) as DomScanResult;
       setDomPreview(domStructure);
+      setStatusMessage(
+        "Generating a framework-specific test suite from the DOM snapshot...",
+      );
 
       const generateResponse = await fetch("/api/generate", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           url,
           framework,
           language,
-          domStructure
-        })
+          domStructure,
+        }),
       });
 
       if (!generateResponse.ok) {
@@ -65,15 +88,19 @@ export function UrlForm() {
       }
 
       const result = (await generateResponse.json()) as GenerateResponse;
+      setStatusMessage(
+        "Saving the generated suite and opening the result view...",
+      );
 
       startTransition(() => {
         router.push(`/results/${result.id}`);
       });
     } catch (submissionError) {
+      setStatusMessage("");
       setError(
         submissionError instanceof Error
           ? submissionError.message
-          : "Unexpected error while generating tests."
+          : "Unexpected error while generating tests.",
       );
     } finally {
       setIsWorking(false);
@@ -85,14 +112,14 @@ export function UrlForm() {
         { label: "Buttons", value: deferredPreview.buttons.length },
         { label: "Inputs", value: deferredPreview.inputs.length },
         { label: "Forms", value: deferredPreview.forms.length },
-        { label: "Links", value: deferredPreview.links.length }
+        { label: "Links", value: deferredPreview.links.length },
       ]
     : [];
 
   return (
     <div className="space-y-6">
       <form className="panel p-6 sm:p-8" onSubmit={handleSubmit}>
-        <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+        <div className="grid gap-6 grid-cols-[1fr_280px]">
           <div className="space-y-6">
             <div className="space-y-3">
               <span className="eyebrow">Scan any production URL</span>
@@ -100,8 +127,9 @@ export function UrlForm() {
                 Turn a live page into runnable automation scripts.
               </h2>
               <p className="max-w-2xl text-sm leading-6 text-stone-600">
-                AutoTestGen AI fetches the page, extracts interactive targets, and drafts
-                a framework-specific test suite you can run immediately.
+                AutoTestGen AI fetches the page, extracts interactive targets,
+                and drafts a framework-specific test suite you can run
+                immediately.
               </p>
             </div>
             <div className="space-y-3">
@@ -112,6 +140,7 @@ export function UrlForm() {
                 Webpage URL
               </label>
               <Input
+                ref={urlInputRef}
                 id="target-url"
                 inputMode="url"
                 placeholder="https://example.com/login"
@@ -146,7 +175,7 @@ export function UrlForm() {
                 {isWorking ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Generating suite...
+                    Working...
                   </>
                 ) : (
                   <>
@@ -156,8 +185,19 @@ export function UrlForm() {
                 )}
               </Button>
               <p className="text-xs leading-5 text-stone-400">
-                Best results come from publicly accessible URLs with stable selectors.
+                Best results come from publicly accessible URLs with stable
+                selectors.
               </p>
+              {statusMessage ? (
+                <div className="rounded-[20px] border border-white/10 bg-white/5 px-4 py-3 text-xs leading-6 text-stone-300">
+                  {statusMessage}
+                </div>
+              ) : (
+                <div className="rounded-[20px] border border-white/10 bg-white/5 px-4 py-3 text-xs leading-6 text-stone-400">
+                  The workflow scans the URL first, then generates code, then
+                  stores the suite in your history.
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -173,7 +213,9 @@ export function UrlForm() {
         <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="panel p-6">
             <p className="font-display text-2xl">Latest DOM Snapshot</p>
-            <p className="mt-2 text-sm text-stone-600">{deferredPreview.pageTitle}</p>
+            <p className="mt-2 text-sm text-stone-600">
+              {deferredPreview.pageTitle}
+            </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
               {previewMetrics.map((metric) => (
                 <div key={metric.label} className="metric-card">
@@ -202,7 +244,7 @@ export function UrlForm() {
               {[
                 ...deferredPreview.buttons.slice(0, 2),
                 ...deferredPreview.inputs.slice(0, 2),
-                ...deferredPreview.links.slice(0, 2)
+                ...deferredPreview.links.slice(0, 2),
               ].map((item) => (
                 <div
                   key={`${item.selector}-${item.tag}`}

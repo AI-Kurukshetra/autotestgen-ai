@@ -11,10 +11,15 @@ import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
   email?: string;
+  displayName?: string;
   isAdmin?: boolean;
 };
 
-export function MobileNav({ email, isAdmin = false }: MobileNavProps) {
+export function MobileNav({
+  email,
+  displayName,
+  isAdmin = false
+}: MobileNavProps) {
   const supabase = createClient();
   const router = useRouter();
   const pathname = usePathname();
@@ -85,7 +90,8 @@ export function MobileNav({ email, isAdmin = false }: MobileNavProps) {
                   <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stone-400">
                     Signed in
                   </p>
-                  <p className="mt-2 break-all text-sm font-medium">{email}</p>
+                  <p className="mt-2 text-sm font-medium">{displayName || email}</p>
+                  <p className="mt-1 break-all text-xs text-stone-300">{email}</p>
                 </div>
               ) : null}
 

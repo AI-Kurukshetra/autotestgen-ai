@@ -9,17 +9,18 @@ import { createClient } from "@/lib/supabaseClient";
 
 type UserMenuProps = {
   email: string;
+  displayName?: string;
   isAdmin?: boolean;
 };
 
-export function UserMenu({ email, isAdmin = false }: UserMenuProps) {
+export function UserMenu({ email, displayName, isAdmin = false }: UserMenuProps) {
   const supabase = createClient();
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
-  const initials = email.slice(0, 1).toUpperCase();
+  const initials = (displayName || email).slice(0, 1).toUpperCase();
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -59,7 +60,9 @@ export function UserMenu({ email, isAdmin = false }: UserMenuProps) {
           {initials}
         </div>
         <div className="hidden min-w-0 sm:block">
-          <p className="truncate text-sm font-medium text-stone-900">{email}</p>
+          <p className="truncate text-sm font-medium text-stone-900">
+            {displayName || email}
+          </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-stone-500">
             Account
           </p>
@@ -78,7 +81,8 @@ export function UserMenu({ email, isAdmin = false }: UserMenuProps) {
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-stone-400">
                   Signed in as
                 </p>
-                <p className="mt-2 break-all text-sm font-medium text-white">{email}</p>
+                <p className="mt-2 text-sm font-medium text-white">{displayName || email}</p>
+                <p className="mt-1 break-all text-xs text-stone-300">{email}</p>
               </div>
             </div>
           </div>
