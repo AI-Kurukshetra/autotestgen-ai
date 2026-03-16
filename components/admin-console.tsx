@@ -3,6 +3,7 @@
 import {
   AlertOctagon,
   Ban,
+  CheckCircle2,
   ChevronDown,
   ChevronUp,
   KeyRound,
@@ -24,7 +25,7 @@ type AdminConsoleProps = {
 
 type ActionState = {
   target: string;
-  kind: "disable" | "reset" | "delete" | "";
+  kind: "disable" | "reset" | "delete" | "confirm" | "";
 };
 
 function isUserDisabled(bannedUntil?: string) {
@@ -51,7 +52,7 @@ export function AdminConsole({ users, currentUserId }: AdminConsoleProps) {
 
   async function runAction(
     userId: string,
-    kind: "disable" | "reset" | "delete",
+    kind: "disable" | "reset" | "delete" | "confirm",
     body?: Record<string, unknown>
   ) {
     setFeedback((current) => ({ ...current, [userId]: "" }));
@@ -62,6 +63,8 @@ export function AdminConsole({ users, currentUserId }: AdminConsoleProps) {
         ? `/api/admin/users/${userId}/status`
         : kind === "reset"
         ? `/api/admin/users/${userId}/reset`
+        : kind === "confirm"
+        ? `/api/admin/users/${userId}/confirm-email`
         : `/api/admin/users/${userId}/delete`;
 
     const response = await fetch(endpoint, {
@@ -198,10 +201,36 @@ export function AdminConsole({ users, currentUserId }: AdminConsoleProps) {
                         {user.suite_count}
                       </p>
                     </div>
+                    <div className="rounded-[20px] border border-black/10 bg-white/70 px-4 py-3">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-500">
+                        Email
+                      </p>
+                      <p className="mt-2 text-sm font-medium text-stone-900">
+                        {user.email_confirmed_at
+                          ? `Confirmed ${formatDate(user.email_confirmed_at)}`
+                          : "Pending"}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
                 <div className="grid w-full gap-2 sm:flex sm:flex-wrap sm:items-center lg:w-auto">
+                  {!user.email_confirmed_at ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={isBusy}
+                      className="w-full sm:w-auto"
+                      onClick={() => runAction(user.id, "confirm")}
+                    >
+                      {isBusy && actionState.kind === "confirm" ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <CheckCircle2 className="h-4 w-4" />
+                      )}
+                      Confirm email
+                    </Button>
+                  ) : null}
                   <Button
                     variant="outline"
                     size="sm"
