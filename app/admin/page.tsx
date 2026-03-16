@@ -1,25 +1,34 @@
 import { ShieldCheck, Users } from "lucide-react";
 
-import { AdminConsole } from "@/components/admin-console";
+import { AdminTabs } from "@/components/admin-tabs";
 import { createAdminClient, requireAdminUser } from "@/lib/supabase/admin";
-import type { AdminUserView, TestGeneration, UserRoleRecord } from "@/lib/types";
+import type { AdminUserView, ContactMessage, TestGeneration, UserRoleRecord } from "@/lib/types";
 
 export default async function AdminPage() {
   const currentUser = await requireAdminUser();
   const supabase = createAdminClient();
 
-  const [{ data: usersData, error: usersError }, { data: roleRows }, { data: suitesData }] =
-    await Promise.all([
-      supabase.auth.admin.listUsers({
-        page: 1,
-        perPage: 1000
-      }),
-      supabase.from("user_roles").select("*"),
-      supabase.from("test_generations").select("*").order("created_at", { ascending: false })
-    ]);
+  const [
+    { data: usersData, error: usersError },
+    { data: roleRows },
+    { data: suitesData },
+    { data: contactRows, error: contactError }
+  ] = await Promise.all([
+    supabase.auth.admin.listUsers({
+      page: 1,
+      perPage: 1000
+    }),
+    supabase.from("user_roles").select("*"),
+    supabase.from("test_generations").select("*").order("created_at", { ascending: false }),
+    supabase.from("contact_messages").select("*").order("created_at", { ascending: false })
+  ]);
 
   if (usersError) {
     throw new Error(usersError.message);
+  }
+
+  if (contactError) {
+    throw new Error(contactError.message);
   }
 
   const roleMap = new Map(
@@ -44,6 +53,8 @@ export default async function AdminPage() {
     suite_count: suitesByUser.get(user.id)?.length || 0,
     suites: suitesByUser.get(user.id) || []
   }));
+
+  const contactMessages: ContactMessage[] = (contactRows as ContactMessage[] | null) || [];
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-14">
@@ -82,7 +93,11 @@ export default async function AdminPage() {
           </div>
         </section>
 
-        <AdminConsole users={users} currentUserId={currentUser.id} />
+        <AdminTabs
+          users={users}
+          currentUserId={currentUser.id}
+          contactMessages={contactMessages}
+        />
       </div>
     </main>
   );

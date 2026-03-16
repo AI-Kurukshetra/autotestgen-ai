@@ -82,3 +82,13 @@ export type AdminUserView = {
   suite_count: number;
   suites: TestGeneration[];
 };
+
+export type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  reason: string;
+  created_at: string;
+};
