@@ -215,6 +215,16 @@ export default async function HomePage() {
               Open Dashboard
             </Link>
           </div>
+          <div className="mt-3 text-sm leading-6 text-stone-600">
+            Need help or have a question?{" "}
+            <Link
+              href="/contact"
+              className="inline-flex items-center font-medium text-primary transition hover:text-primary-foreground"
+            >
+              Talk to the admin team
+              <ArrowRight className="ml-1 h-3 w-3" />
+            </Link>
+          </div>
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="rounded-[24px] border border-black/10 bg-white/75 px-4 py-4">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-stone-500">

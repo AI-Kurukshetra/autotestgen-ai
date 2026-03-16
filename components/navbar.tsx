@@ -36,6 +36,12 @@ export async function Navbar() {
           >
             Dashboard
           </Link>
+          <Link
+            href="/contact"
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+          >
+            Contact
+          </Link>
           {user && role === "admin" ? (
             <Link
               href="/admin"

@@ -24,24 +24,3 @@ export function getSupabaseConfig() {
 export function getSupabaseServiceRoleKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || "";
 }
-
-export function getContactEmail() {
-  return process.env.CONTACT_EMAIL || "support@example.com";
-}
-
-export function getSmtpConfig() {
-  const host = process.env.SMTP_HOST || "";
-  const port = Number(process.env.SMTP_PORT || "587");
-  const user = process.env.SMTP_USER || "";
-  const pass = process.env.SMTP_PASS || "";
-  const from = process.env.SMTP_FROM || user || "";
-
-  return {
-    host,
-    port,
-    user,
-    pass,
-    from,
-    enabled: Boolean(host && user && pass && from)
-  };
-}

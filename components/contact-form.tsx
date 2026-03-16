@@ -71,8 +71,8 @@ export function ContactForm() {
         <span className="eyebrow">Contact support</span>
         <h1 className="font-display text-4xl tracking-tight">Reach the admin team</h1>
         <p className="text-sm leading-7 text-stone-600">
-          Use this form to contact the admin. If your account was disabled, explain the
-          issue and the request will be emailed directly to the configured admin inbox.
+          Use this form to reach the admin. Every submission is stored in Supabase so the
+          admin team can review it even if you lose your inbox or switch email providers.
         </p>
       </div>
 

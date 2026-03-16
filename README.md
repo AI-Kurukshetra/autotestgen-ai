@@ -22,6 +22,7 @@ AutoTestGen AI is a Next.js SaaS MVP that scans a webpage URL, extracts interact
 - Server-side execution for Playwright JavaScript suites with inline logs
 - Saved generation history per authenticated user
 - Admin console for user management
+- Contact form submissions persist in Supabase so the admin team can triage every request.
 
 ## Environment Variables
 
@@ -33,12 +34,6 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 OPENAI_API_KEY=your_openai_api_key
-CONTACT_EMAIL=support@example.com
-SMTP_HOST=
-SMTP_PORT=587
-SMTP_USER=
-SMTP_PASS=
-SMTP_FROM=
 PLAYWRIGHT_CHROME_PATH=/usr/bin/google-chrome
 ```
 
@@ -125,6 +120,18 @@ create table if not exists public.user_roles (
 );
 
 alter table public.user_roles enable row level security;
+
+create table if not exists public.contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  subject text not null,
+  message text not null,
+  reason text not null default 'general',
+  created_at timestamptz not null default now()
+);
+
+alter table public.contact_messages enable row level security;
 ```
 
 ## How It Works

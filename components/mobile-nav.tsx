@@ -96,15 +96,21 @@ export function MobileNav({
               ) : null}
 
               <div className="grid gap-2">
-                <Link
-                  href="/dashboard"
-                  className={cn(buttonVariants({ variant: "ghost", size: "default" }), "justify-start rounded-2xl")}
-                >
-                  Dashboard
-                </Link>
+              <Link
+                href="/dashboard"
+                className={cn(buttonVariants({ variant: "ghost", size: "default" }), "justify-start rounded-2xl")}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/contact"
+                className={cn(buttonVariants({ variant: "ghost", size: "default" }), "justify-start rounded-2xl")}
+              >
+                Contact
+              </Link>
 
-                {isAdmin ? (
-                  <Link
+              {isAdmin ? (
+                <Link
                     href="/admin"
                     className={cn(buttonVariants({ variant: "ghost", size: "default" }), "justify-start rounded-2xl")}
                   >
