@@ -12,6 +12,7 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.49.1",
     "@types/nodemailer": "^7.0.11",
+    "archiver": "^7.0.1",
     "cheerio": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@types/archiver": "^7.0.0",
     "@types/node": "^22.15.3",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",

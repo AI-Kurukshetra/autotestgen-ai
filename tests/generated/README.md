@@ -2,14 +2,24 @@
 
 This project is configured so generated Playwright files can run directly from `tests/generated`.
 
-## One-time setup
+## Option A — Download as ZIP (recommended)
+
+1. From the app **results** page, click **Download as ZIP**.
+2. Extract the ZIP on your machine.
+3. Open a terminal in the extracted folder and run:
 
 ```bash
 npm install
-npm run test:generated:install
+npm run install:browsers
+npm test
 ```
 
-## Use a generated file
+To **open the browser and watch test cases run:** `npm run test:headed`  
+To open the **interactive UI:** `npm run test:ui`
+
+The ZIP includes a full runnable project and a **README.md** with step-by-step Playwright instructions.
+
+## Option B — Single file into this repo
 
 1. From the app results page, click **Download** for a Playwright result.
 2. Move the downloaded file into `tests/generated/`.
@@ -20,6 +30,13 @@ tests/generated/playwright-www-bacancytechnology-com.js
 ```
 
 The Playwright config in this repo is already set up to detect that filename pattern.
+
+## One-time setup (for Option B)
+
+```bash
+npm install
+npm run test:generated:install
+```
 
 ## Run all generated Playwright tests
 
