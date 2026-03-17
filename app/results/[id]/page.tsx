@@ -4,7 +4,8 @@ import { notFound, redirect } from "next/navigation";
 
 import { CodeViewer } from "@/components/code-viewer";
 import { TestRunPanel } from "@/components/test-run-panel";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils";
 import { PLAYWRIGHT_RUN_STEPS_SUMMARY } from "@/lib/runInstructions";
@@ -64,21 +65,17 @@ export default async function ResultsPage({
               <p className="mt-2 text-sm leading-7 text-stone-600">
                 Exported in {result.language} for the scanned target below.
               </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4 w-full sm:w-auto transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/5 hover:shadow-md"
-                asChild
+              <a
+                href={`/api/results/${result.id}/download-zip`}
+                download
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "mt-4 w-full sm:w-auto hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/5 hover:shadow-md"
+                )}
               >
-                <a
-                  href={`/api/results/${result.id}/download-zip`}
-                  className="inline-flex items-center justify-center gap-2"
-                  download
-                >
-                  <FileArchive className="h-4 w-4" />
-                  Download as ZIP
-                </a>
-              </Button>
+                <FileArchive className="h-4 w-4" />
+                Download as ZIP
+              </a>
               <p className="mt-2 text-xs text-stone-500">
                 Runnable test folder with README and run steps (Playwright JS).
               </p>
