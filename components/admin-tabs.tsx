@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { AdminConsole } from "@/components/admin-console";
+import { AdminAppSettings } from "@/components/admin-app-settings";
+import type { AiProvider } from "@/lib/types";
 import { AdminContactSubmissions } from "@/components/admin-contact-submissions";
 import type { AdminUserView, ContactMessage } from "@/lib/types";
 
@@ -11,6 +13,7 @@ type AdminTabsProps = {
   users: AdminUserView[];
   currentUserId: string;
   contactMessages: ContactMessage[];
+  aiProvider: AiProvider;
 };
 
 const tabDefinitions = [
@@ -23,10 +26,20 @@ const tabDefinitions = [
     id: "messages",
     title: "Support inbox",
     description: "See every contact form submission with the raw message and metadata."
+  },
+  {
+    id: "settings",
+    title: "App settings",
+    description: "Configure model routing and future workspace-level controls."
   }
 ] as const;
 
-export function AdminTabs({ users, currentUserId, contactMessages }: AdminTabsProps) {
+export function AdminTabs({
+  users,
+  currentUserId,
+  contactMessages,
+  aiProvider
+}: AdminTabsProps) {
   const [activeTab, setActiveTab] = useState<typeof tabDefinitions[number]["id"]>("users");
 
   return (
@@ -65,7 +78,11 @@ export function AdminTabs({ users, currentUserId, contactMessages }: AdminTabsPr
                     isActive ? "text-white/80" : "text-stone-500"
                   )}
                 >
-                  {tab.id === "users" ? "Suite ops" : "Inbox"}
+                  {tab.id === "users"
+                    ? "Suite ops"
+                    : tab.id === "messages"
+                    ? "Inbox"
+                    : "Config"}
                 </div>
                 <p
                   className={cn(
@@ -91,8 +108,10 @@ export function AdminTabs({ users, currentUserId, contactMessages }: AdminTabsPr
         <div className="mt-6 space-y-4">
           {activeTab === "users" ? (
             <AdminConsole users={users} currentUserId={currentUserId} />
-          ) : (
+          ) : activeTab === "messages" ? (
             <AdminContactSubmissions messages={contactMessages} />
+          ) : (
+            <AdminAppSettings initialProvider={aiProvider} />
           )}
         </div>
       </div>

@@ -1,8 +1,14 @@
 import { ShieldCheck, Users } from "lucide-react";
 
 import { AdminTabs } from "@/components/admin-tabs";
+import { getAppSettings } from "@/lib/appSettings";
 import { createAdminClient, requireAdminUser } from "@/lib/supabase/admin";
-import type { AdminUserView, ContactMessage, TestGeneration, UserRoleRecord } from "@/lib/types";
+import type {
+  AdminUserView,
+  ContactMessage,
+  TestGeneration,
+  UserRoleRecord
+} from "@/lib/types";
 
 export default async function AdminPage() {
   const currentUser = await requireAdminUser();
@@ -12,7 +18,8 @@ export default async function AdminPage() {
     { data: usersData, error: usersError },
     { data: roleRows },
     { data: suitesData },
-    { data: contactRows, error: contactError }
+    { data: contactRows, error: contactError },
+    appSettings
   ] = await Promise.all([
     supabase.auth.admin.listUsers({
       page: 1,
@@ -20,7 +27,8 @@ export default async function AdminPage() {
     }),
     supabase.from("user_roles").select("*"),
     supabase.from("test_generations").select("*").order("created_at", { ascending: false }),
-    supabase.from("contact_messages").select("*").order("created_at", { ascending: false })
+    supabase.from("contact_messages").select("*").order("created_at", { ascending: false }),
+    getAppSettings()
   ]);
 
   if (usersError) {
@@ -97,6 +105,7 @@ export default async function AdminPage() {
           users={users}
           currentUserId={currentUser.id}
           contactMessages={contactMessages}
+          aiProvider={appSettings.ai_provider}
         />
       </div>
     </main>

@@ -65,6 +65,12 @@ export type TestRunResponse = {
 
 export type UserRole = "admin" | "user";
 
+export type AiProvider = "groq" | "openai" | "gemini";
+
+export type AppSettings = {
+  ai_provider: AiProvider;
+};
+
 export type UserRoleRecord = {
   user_id: string;
   role: UserRole;
